@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Check Yo' Self</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header>
+      <h1>Check Yo' Self</h1>
+      <div class="search">
+        <button type="button" class="search-button">X</button>
+        <input type="text" class="search-field" placeholder="Search">
+      </div>
+    </header>
+    <aside class="newTasks">
+      <div class="createNew">
+        <input type="text" title="Task Title" id="task-title-input">
+        <div class="new-task-item">
+          <input type="text" title="Task Item" id="task-item-input">
+          <button type="button" class="new-task-item-button">+</button>
+        </div>
+        <button type="button" class="make-task-button">Make Task List</button>
+        <button type="button" class="clear-button">Clear All</button>
+      </div>
+      <div class="urgency-sort">
+        <button type="button" class="urgency-sort-button">Filter by Urgency</button>
+      </div>
+    </aside>
+    <main class="currentTasks">
+      <p>"Create some to-dos to start checking off!"</p>
+    </main>
+  </body>
+  <script src="main.js"></script>
+  <script src="todo-list.js"></script>
+  <script src="task.js"></script>
+</html>
