@@ -6,8 +6,8 @@ p {
   font-family: 'Open Sans';
 }
 
-button {
-  font-family: 'Open Sans';
+.hidden {
+  display: none;
 }
 
 header {
@@ -138,12 +138,68 @@ aside {
 
 .current-tasks {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
-  /* justify-content: center; */
   width: 70%;
 }
 
 .starting-message {
   margin: 60px 200px 60px 200px;
+}
+
+.todo-list-card {
+  background-color: #FAFDFF;
+  border: solid #C7D3D8;
+  margin-top: 20px;
+  margin-left: 20px;
+  width: 400px;
+}
+
+.todo-list-card h2, p {
+  color: #1F1F3D;
+  font-family: 'Open Sans';
+}
+
+h2 {
+  border-bottom: solid #C7D3D8;
+  margin: 0px;
+  padding: 15px 10px 15px 10px;
+}
+
+.task-item {
+  margin: 15px 10px 15px 10px;
+}
+
+.checkbox-button {
+  display: inline-block;
+  height: 25px;
+  width: 25px;
+}
+
+.todo-list-card p {
+  display: inline-block;
+  font-size: 20px;
+}
+
+.task-actions {
+  border-top: solid #C7D3D8;
+  display: flex;
+  justify-content: space-between;
+}
+
+.task-urgent, .task-delete {
+  margin: 5px;
+}
+
+.urgent-button, .delete-button, .task-actions-text {
+  display: block;
+  margin-top: 0px;
+  margin-right: auto;
+  margin-bottom: 0px;
+  margin-left: auto;
+}
+
+.urgent-button, .delete-button {
+  height: 25px;
+  width: 25px;
 }
