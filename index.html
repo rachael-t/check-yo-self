@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Check Yo' Self</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <h1>Check Yo' Self</h1>
+      <div class="search-wrap">
+        <div class="search">
+          <button type="button"> <img class="search-button" src="assets/search.svg" alt="magnifying glass"></button>
+          <input type="text" class="search-field" placeholder="Search">
+        </div>
+      </div>
+    </header>
+    <main class="main-page">
+      <aside>
+        <div class="create-new">
+          <div class="new-task-title">
+            <p class="input-name">Task Title</p>
+            <input type="text" id="task-title-input">
+          </div>
+          <div class="new-task-item">
+            <p class="input-name">Task Item</p>
+            <input type="text" id="task-item-input">
+            <button type="button" class="new-task-item-button">+</button>
+          </div>
+          <button type="button" class="make-task-button">Make Task List</button>
+          <button type="button" class="clear-button">Clear All</button>
+        </div>
+        <div class="urgency-sort">
+          <button type="button" class="urgency-sort-button">Filter by Urgency</button>
+        </div>
+      </aside>
+      <section class="current-tasks">
+        <p class="starting-message">"Create some to-dos to start checking off!"</p>
+      </section>
+    </main>
+  </body>
+  <script src="main.js"></script>
+  <script src="todo-list.js"></script>
+  <script src="task.js"></script>
+</html>
