@@ -1,22 +1,15 @@
-// The task is added to the bottom of the checklist in between the Task Title and Task Item inputs
-// Each task on the checklist should also be able to be removed by clicking the respective “delete” button.
-// It should not add a task to the checklist if the input is empty.
-// Tasks on the checklist of the form do not need to persist.
-
-//if the user clicks on .new-task-item-button
-//and there is information in #task-title-input
-//and there is information in #task-item-input
-//then display the #task-item-input value between the two input fields in .newly-added-tasks
-
+//variables
 var taskTitleInput = document.querySelector('#task-title-input');
 var itemInput = document.querySelector('#task-item-input');
 var newItemList = document.querySelector('.newly-added-tasks');
 var newTaskItemButton = document.querySelector('.new-task-item-button');
+var newToDoList = [];
 
+//event listeners
 newTaskItemButton.addEventListener('click', checkAside);
+newItemList.addEventListener('click', removeNewTaskItem);
 
-var toDoList = [];
-
+//functions
 function checkAside() {
   var text = itemInput.value;
   var id = Date.now();
@@ -28,18 +21,45 @@ function checkAside() {
 
 function newTaskAdded(text, id) {
   var task = new Task (text, id);
-  toDoList.push(task);
-  console.log(toDoList);
+  newToDoList.push(task);
+  console.log(newToDoList);
   itemInput.value = '';
-  displayNewTaskItems(text);
+  displayNewTaskItems(text, id);
 }
 
 function displayNewTaskItems(text, id) {
-  for (var i = 0; i < toDoList.length; i++) {
+  for (var i = 0; i < newToDoList.length; i++) {
   }
+  console.log(id);
   newItemList.innerHTML += `
   <li class="todo-item" data-key="${id}">
     <img class="item-delete-button" src="assets/delete.svg" alt="circle with X in the middle">
     <p class="item-listed">${text}</p>
   </li>`
 }
+
+//refactor naming between this and the next one
+function removeNewTaskItem(event) {
+  if (event.target.className === 'item-delete-button') {
+    var itemDataKey = event.target.parentElement.getAttribute('data-key');
+    deleteToDo(itemDataKey);
+  }
+}
+
+function deleteToDo(itemDataKey) {
+  for (var i = 0; i < newToDoList.length; i++) {
+    if (newToDoList[i].taskId == itemDataKey) {
+      newToDoList.splice(i, 1);
+      break;
+    }
+  }
+  console.log(newToDoList);
+  var itemToDelete = document.querySelector(`[data-key="${itemDataKey}"]`);
+  itemToDelete.remove();
+}
+
+// event on make to do newTaskItemButton
+//var uniqueID = Date.now()
+//var todolist = instantiate todolist class with passing uniqueID and taskTitleInput
+//displayNewToDoCard(todolist)
+//then that handles the display
