@@ -4,10 +4,12 @@ var itemInput = document.querySelector('#task-item-input');
 var newItemList = document.querySelector('.newly-added-tasks');
 var newTaskItemButton = document.querySelector('.new-task-item-button');
 var newToDoList = [];
+var makeTaskButton = document.querySelector('.make-task-button');
 
 //event listeners
 newTaskItemButton.addEventListener('click', checkAside);
 newItemList.addEventListener('click', removeNewTaskItem);
+makeTaskButton.addEventListener('click', makeTaskList);
 
 //functions
 function checkAside() {
@@ -56,6 +58,30 @@ function deleteToDo(itemDataKey) {
   console.log(newToDoList);
   var itemToDelete = document.querySelector(`[data-key="${itemDataKey}"]`);
   itemToDelete.remove();
+}
+
+function makeTaskList() {
+  var title = taskTitleInput.value;
+  if (title != '' && newToDoList != '') {
+    console.log('you may make a list');
+    var uniqueID = Date.now();
+    var toDoList = new ToDoList(uniqueID, title);
+    // console.log(toDoList);
+    clearForm();
+    displayNewToDoCard(toDoList)
+  } else makeTaskButton.disabled = true;
+  // console.log('you cannot make a list');
+}
+
+function clearForm() {
+  taskTitleInput.value = '';
+  itemInput.value = '';
+  document.querySelectorAll('.todo-item').forEach(item => item.parentNode.removeChild(item));
+}
+
+
+function displayNewToDoCard(toDoList) {
+  console.log(toDoList);
 }
 
 // event on make to do newTaskItemButton
