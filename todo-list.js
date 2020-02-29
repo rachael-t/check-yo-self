@@ -1,5 +1,5 @@
 class ToDoList {
-  constructor() {
+  constructor(uniqueID, title) {
     this.id = uniqueID;
     this.title = title;
     this.urgent = false;

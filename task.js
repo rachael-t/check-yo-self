@@ -1,4 +1,4 @@
-class Tasks() {
+class Task {
   constructor(name) {
     this.taskName = name;
     this.isCompleted = false;
