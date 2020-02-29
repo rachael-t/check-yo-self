@@ -1,6 +1,7 @@
 class Task {
-  constructor(name) {
+  constructor(name, taskId) {
     this.taskName = name;
+    this.taskId = taskId;
     this.isCompleted = false;
   }
   completeTask() {

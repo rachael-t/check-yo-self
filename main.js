@@ -19,22 +19,27 @@ var toDoList = [];
 
 function checkAside() {
   var text = itemInput.value;
+  var id = Date.now();
   var title = taskTitleInput.value;
   if (text !== '' && title !== '') {
-    newTaskAdded(text);
+    newTaskAdded(text, id);
   }
 }
 
-function newTaskAdded(text) {
-  var task = new Task (text);
+function newTaskAdded(text, id) {
+  var task = new Task (text, id);
   toDoList.push(task);
   console.log(toDoList);
   itemInput.value = '';
   displayNewTaskItems(text);
 }
 
-function displayNewTaskItems(text) {
+function displayNewTaskItems(text, id) {
   for (var i = 0; i < toDoList.length; i++) {
   }
-  newItemList.innerHTML += `<p>${text}</p>`;
+  newItemList.innerHTML += `
+  <li class="todo-item" data-key="${id}">
+    <img class="item-delete-button" src="assets/delete.svg" alt="circle with X in the middle">
+    <p class="item-listed">${text}</p>
+  </li>`
 }

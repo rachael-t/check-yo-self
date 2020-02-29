@@ -111,6 +111,26 @@ aside {
   width: 16%;
 }
 
+.newly-added-tasks {
+  width: 80%;
+}
+
+.todo-item {
+  list-style-type: none;
+  display: inline-block;
+  width: 100%;
+}
+
+.item-delete-button, .item-listed {
+  display: inline-block;
+}
+
+.item-delete-button {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
 .make-task-button, .clear-button, .urgency-sort-button  {
   background-color: #1F1F3D;
   border: none;
