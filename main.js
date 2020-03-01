@@ -5,11 +5,14 @@ var newItemList = document.querySelector('.newly-added-tasks');
 var newTaskItemButton = document.querySelector('.new-task-item-button');
 var newToDoList = [];
 var makeTaskButton = document.querySelector('.make-task-button');
+var currentTasks = document.querySelector('.current-tasks');
+
 
 //event listeners
 newTaskItemButton.addEventListener('click', checkAside);
 newItemList.addEventListener('click', removeNewTaskItem);
 makeTaskButton.addEventListener('click', makeTaskList);
+window.onload = retrieveToDoLists;
 
 //functions
 function checkAside() {
@@ -63,14 +66,11 @@ function deleteToDo(itemDataKey) {
 function makeTaskList() {
   var title = taskTitleInput.value;
   if (title != '' && newToDoList != '') {
-    console.log('you may make a list');
     var uniqueID = Date.now();
-    var toDoList = new ToDoList(uniqueID, title);
-    // console.log(toDoList);
+    var toDoList = new ToDoList(uniqueID, title, newToDoList);
+    displayNewToDoCard(toDoList);
     clearForm();
-    displayNewToDoCard(toDoList)
   } else makeTaskButton.disabled = true;
-  // console.log('you cannot make a list');
 }
 
 function clearForm() {
@@ -79,13 +79,64 @@ function clearForm() {
   document.querySelectorAll('.todo-item').forEach(item => item.parentNode.removeChild(item));
 }
 
-
 function displayNewToDoCard(toDoList) {
   console.log(toDoList);
+  currentTasks.innerHTML += `
+  <div class="todo-list-card">
+    <h2>${toDoList.title}</h2>
+    <div class="task-holder" id="${toDoList.id}">
+    </div>
+    <div class="task-actions">
+      <div class="task-urgent">
+        <img class="urgent-button" src="assets/urgent.svg" alt="lightening bolt">
+        <p class="task-actions-text">Urgent</p>
+      </div>
+      <div class="task-delete">
+        <img class="delete-button" src="assets/delete.svg" alt="circle with X in the middle">
+        <p class="task-actions-text">Delete</p>
+      </div>
+    </div>`
+  var taskHolder = document.getElementById(`${toDoList.id}`);
+  for (var i = 0; i < toDoList.tasks.length; i++) {
+    taskHolder.innerHTML += `
+    <div class="task-item">
+      <img class="search-button" id="${toDoList.tasks[i].taskId}" src="assets/checkbox.svg" alt="empty circle">
+      <p>${toDoList.tasks[i].taskName}</p>
+    </div>`
+  }
+  newToDoList = [];
+  toDoList.saveToStorage(toDoList);
 }
 
-// event on make to do newTaskItemButton
-//var uniqueID = Date.now()
-//var todolist = instantiate todolist class with passing uniqueID and taskTitleInput
-//displayNewToDoCard(todolist)
-//then that handles the display
+function retrieveToDoLists() {
+  var retrievedToDos = localStorage.getItem(`toDos`);
+  var stringifiedSaved = JSON.parse(retrievedToDos);
+  toDos = stringifiedSaved;
+  displaySavedToDos(toDos);
+}
+
+function displaySavedToDos(toDos) {
+  currentTasks.innerHTML += `
+  <div class="todo-list-card">
+    <h2>${toDos.title}</h2>
+    <div class="task-holder" id="${toDos.id}">
+    </div>
+    <div class="task-actions">
+      <div class="task-urgent">
+        <img class="urgent-button" src="assets/urgent.svg" alt="lightening bolt">
+        <p class="task-actions-text">Urgent</p>
+      </div>
+      <div class="task-delete">
+        <img class="delete-button" src="assets/delete.svg" alt="circle with X in the middle">
+        <p class="task-actions-text">Delete</p>
+      </div>
+    </div>`
+    var taskHolder = document.getElementById(`${toDos.id}`);
+    for (var i = 0; i < toDos.tasks.length; i++) {
+      taskHolder.innerHTML += `
+      <div class="task-item">
+        <img class="search-button" id="${toDos.tasks[i].taskId}" src="assets/checkbox.svg" alt="empty circle">
+        <p>${toDos.tasks[i].taskName}</p>
+      </div>`
+    }
+}
