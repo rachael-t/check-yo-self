@@ -118,7 +118,6 @@ function onPageLoad() {
 
 function disableClearButton() {
   if (taskTitleInput.value === "" && newToDoList.length === 0) {
-    console.log('it worked');
     clearAllButton.disabled = true;
   }
 }
@@ -161,4 +160,5 @@ function clearInputFields() {
   itemInput.value = '';
   document.querySelectorAll('.todo-item').forEach(item => item.parentNode.removeChild(item));
   newToDoList = [];
+  clearAllButton.disabled = true;
 }
