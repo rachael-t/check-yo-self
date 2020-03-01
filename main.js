@@ -6,13 +6,15 @@ var newTaskItemButton = document.querySelector('.new-task-item-button');
 var newToDoList = [];
 var makeTaskButton = document.querySelector('.make-task-button');
 var currentTasks = document.querySelector('.current-tasks');
+var clearAllButton = document.querySelector('.clear-button');
 
 
 //event listeners
 newTaskItemButton.addEventListener('click', checkAside);
 newItemList.addEventListener('click', removeNewTaskItem);
 makeTaskButton.addEventListener('click', makeTaskList);
-window.onload = retrieveToDoLists;
+clearAllButton.addEventListener('click', clearInputFields);
+window.onload = onPageLoad;
 
 //functions
 function checkAside() {
@@ -21,6 +23,7 @@ function checkAside() {
   var title = taskTitleInput.value;
   if (text !== '' && title !== '') {
     newTaskAdded(text, id);
+    clearAllButton.disabled = false;
   }
 }
 
@@ -108,6 +111,18 @@ function displayNewToDoCard(toDoList) {
   toDoList.saveToStorage(toDoList);
 }
 
+function onPageLoad() {
+  disableClearButton();
+  retrieveToDoLists();
+}
+
+function disableClearButton() {
+  if (taskTitleInput.value === "" && newToDoList.length === 0) {
+    console.log('it worked');
+    clearAllButton.disabled = true;
+  }
+}
+
 function retrieveToDoLists() {
   var retrievedToDos = localStorage.getItem(`toDos`);
   var stringifiedSaved = JSON.parse(retrievedToDos);
@@ -139,4 +154,11 @@ function displaySavedToDos(toDos) {
         <p>${toDos.tasks[i].taskName}</p>
       </div>`
     }
+}
+
+function clearInputFields() {
+  taskTitleInput.value = '';
+  itemInput.value = '';
+  document.querySelectorAll('.todo-item').forEach(item => item.parentNode.removeChild(item));
+  newToDoList = [];
 }
