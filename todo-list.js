@@ -25,8 +25,8 @@ class ToDoList {
   deleteFromStorage() {
     var retrievedToDos = localStorage.getItem(`toDos`);
     var parsedToDos = JSON.parse(retrievedToDos);
-    var oldStorage = window.localStorage;
-    oldStorage.clear();
+    // var oldStorage = window.localStorage;
+    // oldStorage.clear();
     for (var i = 0; i < parsedToDos.length; i++) {
       if (parsedToDos[i].id === this.id) {
         parsedToDos.splice(i, 1);
