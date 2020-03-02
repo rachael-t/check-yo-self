@@ -14,7 +14,7 @@ newTaskItemButton.addEventListener('click', checkAside);
 newItemList.addEventListener('click', removeNewTaskItem);
 makeTaskButton.addEventListener('click', makeTaskList);
 clearAllButton.addEventListener('click', clearInputFields);
-currentTasks.addEventListener('click', editToDoCard);
+currentTasks.addEventListener('click', deleteToDoCard);
 window.onload = onPageLoad;
 
 //functions
@@ -87,9 +87,9 @@ function clearForm() {
 function displayNewToDoCard(toDoList) {
   console.log(toDoList);
   currentTasks.innerHTML += `
-  <div class="todo-list-card">
+  <div class="todo-list-card" id="${toDoList.id}">
     <h2>${toDoList.title}</h2>
-    <div class="task-holder" id="${toDoList.id}">
+    <div class="task-holder">
     </div>
     <div class="task-actions">
       <div class="task-urgent">
@@ -128,6 +128,8 @@ function retrieveToDoLists() {
     return;
   }
   var toDos = JSON.parse(retrievedToDos);
+  //based on what we talked about in class - should I re-instantiate the parsed object literals before displaying?
+  console.log('toDos', toDos)
   for (var i = 0; i < toDos.length; i++) {
     displayToDoCard(toDos[i]);
   }
@@ -167,12 +169,7 @@ function clearInputFields() {
   clearAllButton.disabled = true;
 }
 
-function editToDoCard(event) {
-  deleteToDoCard(event);
-}
-
 function deleteToDoCard(event) {
-  // var element = event.target
   if (event.target.className === 'delete-button') {
     var cardDataKey = event.target.closest(".todo-list-card").getAttribute('id');
     removeCardFromStorage(cardDataKey);
@@ -185,15 +182,16 @@ function deleteToDoCard(event) {
 
 function removeCardFromStorage(cardDataKey) {
   var cleanCardDataKey = parseInt(cardDataKey);
-  console.log('the parsed key', cleanCardDataKey);
   var retrievedToDos = localStorage.getItem(`toDos`);
   var parsedToDos = JSON.parse(retrievedToDos);
-
+  console.log('list we are working with', parsedToDos);
   for (var i = 0; i < parsedToDos.length; i++) {
-    if (parsedToDos[i].taskId === cleanCardDataKey) {
-      parsedToDos.splice(i, 1);
-      console.log("hey", parsedToDos);
-      break;
+    if (parsedToDos[i].id === cleanCardDataKey) {
+      var toDoList = new ToDoList (parsedToDos[i].id, parsedToDos[i].title, parsedToDos[i].tasks);
+      // var toDoList = new ToDoList (parsedToDos);
+      console.log('new thing to delete', toDoList);
+      toDoList.deleteFromStorage();
+
     }
   }
 }
