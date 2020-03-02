@@ -14,6 +14,7 @@ newTaskItemButton.addEventListener('click', checkAside);
 newItemList.addEventListener('click', removeNewTaskItem);
 makeTaskButton.addEventListener('click', makeTaskList);
 clearAllButton.addEventListener('click', clearInputFields);
+// currentTasks.addEventListener('click', deleteToDoCard);
 window.onload = onPageLoad;
 
 //functions
@@ -46,24 +47,23 @@ function displayNewTaskItems(text, id) {
   </li>`
 }
 
-//refactor naming between this and the next one
+//this is removing it visually from the DOM
 function removeNewTaskItem(event) {
   if (event.target.className === 'item-delete-button') {
     var itemDataKey = event.target.parentElement.getAttribute('data-key');
-    deleteToDo(itemDataKey);
-  }
+  } deleteToDo(itemDataKey);
+  var itemToDelete = document.querySelector(`[data-key="${itemDataKey}"]`);
+  itemToDelete.remove();
 }
-
+//this is what removes it from the array
 function deleteToDo(itemDataKey) {
+  var cleanDataKey = parseInt(itemDataKey)
   for (var i = 0; i < newToDoList.length; i++) {
-    if (newToDoList[i].taskId == itemDataKey) {
+    if (newToDoList[i].taskId === cleanDataKey) {
       newToDoList.splice(i, 1);
       break;
     }
   }
-  console.log(newToDoList);
-  var itemToDelete = document.querySelector(`[data-key="${itemDataKey}"]`);
-  itemToDelete.remove();
 }
 
 function makeTaskList() {
@@ -71,12 +71,14 @@ function makeTaskList() {
   if (title != '' && newToDoList != '') {
     var uniqueID = Date.now();
     var toDoList = new ToDoList(uniqueID, title, newToDoList);
+    toDoList.saveToStorage();
     displayNewToDoCard(toDoList);
     clearForm();
   } else makeTaskButton.disabled = true;
 }
 
 function clearForm() {
+  newToDoList = [];
   taskTitleInput.value = '';
   itemInput.value = '';
   document.querySelectorAll('.todo-item').forEach(item => item.parentNode.removeChild(item));
@@ -107,8 +109,6 @@ function displayNewToDoCard(toDoList) {
       <p>${toDoList.tasks[i].taskName}</p>
     </div>`
   }
-  newToDoList = [];
-  toDoList.saveToStorage(toDoList);
 }
 
 function onPageLoad() {
@@ -124,16 +124,20 @@ function disableClearButton() {
 
 function retrieveToDoLists() {
   var retrievedToDos = localStorage.getItem(`toDos`);
-  var stringifiedSaved = JSON.parse(retrievedToDos);
-  toDos = stringifiedSaved;
-  displaySavedToDos(toDos);
+  if (!retrievedToDos) {
+    return;
+  }
+  var toDos = JSON.parse(retrievedToDos);
+  for (var i = 0; i < toDos.length; i++) {
+    displayToDoCard(toDos[i]);
+  }
 }
 
-function displaySavedToDos(toDos) {
+function displayToDoCard(toDoCard) {
   currentTasks.innerHTML += `
-  <div class="todo-list-card">
-    <h2>${toDos.title}</h2>
-    <div class="task-holder" id="${toDos.id}">
+  <div class="todo-list-card" id="${toDoCard.id}">
+    <h2>${toDoCard.title}</h2>
+    <div class="task-holder">
     </div>
     <div class="task-actions">
       <div class="task-urgent">
@@ -145,12 +149,12 @@ function displaySavedToDos(toDos) {
         <p class="task-actions-text">Delete</p>
       </div>
     </div>`
-    var taskHolder = document.getElementById(`${toDos.id}`);
-    for (var i = 0; i < toDos.tasks.length; i++) {
+    var taskHolder = document.getElementById(`${toDoCard.id}`);
+    for (var i = 0; i < toDoCard.tasks.length; i++) {
       taskHolder.innerHTML += `
       <div class="task-item">
-        <img class="search-button" id="${toDos.tasks[i].taskId}" src="assets/checkbox.svg" alt="empty circle">
-        <p>${toDos.tasks[i].taskName}</p>
+        <img class="search-button" id="${toDoCard.tasks[i].taskId}" src="assets/checkbox.svg" alt="empty circle">
+        <p>${toDoCard.tasks[i].taskName}</p>
       </div>`
     }
 }
@@ -162,3 +166,18 @@ function clearInputFields() {
   newToDoList = [];
   clearAllButton.disabled = true;
 }
+
+// function deleteToDoCard(event) {
+//   // var element = event.target
+//   if (event.target.className === 'delete-button') {
+//     var cardDataKey = event.target.closest(".todo-list-card").getAttribute('id');
+//     removeCardFromStorage(cardDataKey);
+//     var cardToDelete = document.querySelector(`[id="${cardDataKey}"]`);
+//     console.log('hello', cardToDelete)
+//     cardToDelete.remove();
+//   }
+// }
+//
+// function removeCardFromStorage(cardDataKey) {
+//   var
+// }
