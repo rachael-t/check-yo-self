@@ -14,7 +14,7 @@ newTaskItemButton.addEventListener('click', checkAside);
 newItemList.addEventListener('click', removeNewTaskItem);
 makeTaskButton.addEventListener('click', makeTaskList);
 clearAllButton.addEventListener('click', clearInputFields);
-// currentTasks.addEventListener('click', deleteToDoCard);
+currentTasks.addEventListener('click', editToDoCard);
 window.onload = onPageLoad;
 
 //functions
@@ -167,17 +167,33 @@ function clearInputFields() {
   clearAllButton.disabled = true;
 }
 
-// function deleteToDoCard(event) {
-//   // var element = event.target
-//   if (event.target.className === 'delete-button') {
-//     var cardDataKey = event.target.closest(".todo-list-card").getAttribute('id');
-//     removeCardFromStorage(cardDataKey);
-//     var cardToDelete = document.querySelector(`[id="${cardDataKey}"]`);
-//     console.log('hello', cardToDelete)
-//     cardToDelete.remove();
-//   }
-// }
-//
-// function removeCardFromStorage(cardDataKey) {
-//   var
-// }
+function editToDoCard(event) {
+  deleteToDoCard(event);
+}
+
+function deleteToDoCard(event) {
+  // var element = event.target
+  if (event.target.className === 'delete-button') {
+    var cardDataKey = event.target.closest(".todo-list-card").getAttribute('id');
+    removeCardFromStorage(cardDataKey);
+    var cardToDelete = document.querySelector(`[id="${cardDataKey}"]`);
+    console.log('what we want to delete', cardToDelete)
+    cardToDelete.remove();
+  }
+}
+
+
+function removeCardFromStorage(cardDataKey) {
+  var cleanCardDataKey = parseInt(cardDataKey);
+  console.log('the parsed key', cleanCardDataKey);
+  var retrievedToDos = localStorage.getItem(`toDos`);
+  var parsedToDos = JSON.parse(retrievedToDos);
+
+  for (var i = 0; i < parsedToDos.length; i++) {
+    if (parsedToDos[i].taskId === cleanCardDataKey) {
+      parsedToDos.splice(i, 1);
+      console.log("hey", parsedToDos);
+      break;
+    }
+  }
+}
