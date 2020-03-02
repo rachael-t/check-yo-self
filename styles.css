@@ -167,6 +167,7 @@ aside {
 
 .starting-message {
   margin: 60px 200px 60px 200px;
+  text-align: center;
 }
 
 .todo-list-card {

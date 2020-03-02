@@ -5,8 +5,8 @@ class ToDoList {
     this.tasks = tasks;
     this.urgent = false;
   }
+
   saveToStorage() {
-    console.log('hello', this);
     var toDoListToSave = this;
     var retrievedToDos = localStorage.getItem(`toDos`);
     if (retrievedToDos) {
@@ -17,12 +17,23 @@ class ToDoList {
       var toDos = [];
       toDos.push(toDoListToSave);
       var stringifiedToDoList = JSON.stringify(toDos);
+      console.log('first toDos', toDos)
       localStorage.setItem('toDos', stringifiedToDoList);
     }
   }
 
   deleteFromStorage() {
-    console.log('hello world');
+    var retrievedToDos = localStorage.getItem(`toDos`);
+    var parsedToDos = JSON.parse(retrievedToDos);
+    // var oldStorage = window.localStorage;
+    // oldStorage.clear();
+    for (var i = 0; i < parsedToDos.length; i++) {
+      if (parsedToDos[i].id === this.id) {
+        parsedToDos.splice(i, 1);
+        var stringifiedToDoList = JSON.stringify(parsedToDos);
+        localStorage.setItem('toDos', stringifiedToDoList);
+      }
+    }
   }
   updateToDo() {
     //should update the todo's title and urgency
