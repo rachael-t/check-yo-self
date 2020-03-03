@@ -14,7 +14,7 @@ newTaskItemButton.addEventListener('click', checkAside);
 newItemList.addEventListener('click', removeNewTaskItem);
 makeTaskButton.addEventListener('click', makeTaskList);
 clearAllButton.addEventListener('click', clearInputFields);
-currentTasks.addEventListener('click', deleteToDoCard);
+currentTasks.addEventListener('click', editToDoListCard);
 window.onload = onPageLoad;
 
 //functions
@@ -71,6 +71,8 @@ function makeTaskList() {
   if (title != '' && newToDoList != '') {
     var uniqueID = Date.now();
     var toDoList = new ToDoList(uniqueID, title, newToDoList);
+//push to global array of variables
+//then call a function to loop through saved cards, and call to have the save to storage
     toDoList.saveToStorage();
     displayNewToDoCard(toDoList);
     clearForm();
@@ -105,7 +107,7 @@ function displayNewToDoCard(toDoList) {
   for (var i = 0; i < toDoList.tasks.length; i++) {
     taskHolder.innerHTML += `
     <div class="task-item">
-      <img class="search-button" id="${toDoList.tasks[i].taskId}" src="assets/checkbox.svg" alt="empty circle">
+      <img class="checkbox-button" id="${toDoList.tasks[i].taskId}" src="assets/checkbox.svg" alt="empty circle">
       <p>${toDoList.tasks[i].taskName}</p>
     </div>`
   }
@@ -155,7 +157,7 @@ function displayToDoCard(toDoCard) {
     for (var i = 0; i < toDoCard.tasks.length; i++) {
       taskHolder.innerHTML += `
       <div class="task-item">
-        <img class="search-button" id="${toDoCard.tasks[i].taskId}" src="assets/checkbox.svg" alt="empty circle">
+        <img class="checkbox-button" id="${toDoCard.tasks[i].taskId}" src="assets/checkbox.svg" alt="empty circle">
         <p>${toDoCard.tasks[i].taskName}</p>
       </div>`
     }
@@ -168,6 +170,49 @@ function clearInputFields() {
   newToDoList = [];
   clearAllButton.disabled = true;
 }
+
+function editToDoListCard(event) {
+  if (event.target.className === 'checkbox-button') {
+    checkOffTask(event);
+  } else if (event.target.className === 'delete-button') {
+    deleteToDoCard(event);
+  }
+}
+
+var masterToDoList = [];
+
+function getLocalStorage() {
+  var retrievedToDos = localStorage.getItem(`toDos`);
+  var parsedToDos = JSON.parse(retrievedToDos);
+  var toDoListObjects = [];
+  for (var i = 0; i < parsedToDos.length; i++) {
+    var taskObjects = [];
+    for (var j = 0; j < parsedToDos[i].tasks.length; j++) {
+      var task = new Task (parsedToDos[i].tasks[j].taskName, parsedToDos[i].tasks[j].taskId);
+      taskObjects.push(task);
+    }
+    var toDoList = new ToDoList (parsedToDos[i].id, parsedToDos[i].title, taskObjects);
+    toDoListObjects.push(toDoList);
+  } masterToDoList = toDoListObjects;
+  console.log(masterToDoList);
+}
+
+function checkOffTask(event) {
+  var taskDataKey = event.target.getAttribute('id');
+  var cleanTaskDataKey = parseInt(taskDataKey);
+  var cardDataKey = event.target.closest(".todo-list-card").getAttribute('id');
+  var cleanCardDataKey = parseInt(cardDataKey);
+  getLocalStorage();
+  for (var i = 0; i < masterToDoList.length; i++) {
+    if (masterToDoList[i].id === cleanCardDataKey) {
+      masterToDoList[i].updateTask(cleanTaskDataKey);
+    }
+    var stringifiedToDoList = JSON.stringify(masterToDoList);
+    localStorage.setItem('toDos', stringifiedToDoList);
+  }
+  getLocalStorage();
+}
+
 
 function deleteToDoCard(event) {
   if (event.target.className === 'delete-button') {
@@ -185,6 +230,7 @@ function removeCardFromStorage(cardDataKey) {
   var retrievedToDos = localStorage.getItem(`toDos`);
   var parsedToDos = JSON.parse(retrievedToDos);
   console.log('list we are working with', parsedToDos);
+
   for (var i = 0; i < parsedToDos.length; i++) {
     if (parsedToDos[i].id === cleanCardDataKey) {
       var toDoList = new ToDoList (parsedToDos[i].id, parsedToDos[i].title, parsedToDos[i].tasks);
@@ -195,3 +241,13 @@ function removeCardFromStorage(cardDataKey) {
     }
   }
 }
+
+// var taskItem = document.querySelector('.task-item');
+// taskItem.innerHTML = `<img class="checkbox-button completed-task" id="${toDoCard.tasks[i].taskId}" src="assets/checkbox-active.svg" alt="circle with check mark in middle"> <p>${toDoCard.tasks[i].taskName}</p>`
+
+
+//set a global variable for the masterToDoList
+//set a function that does the get from local storage, parse and then instantiate as new object instance and set masterToDoList as that object instance
+//refer to that variable instead of continually typing that code out
+//call any of the methods, push to local storage
+//then after whenever I call a method that is changing local storage, after it call the function to pull from local stroage and update

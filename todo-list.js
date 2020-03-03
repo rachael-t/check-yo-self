@@ -17,7 +17,6 @@ class ToDoList {
       var toDos = [];
       toDos.push(toDoListToSave);
       var stringifiedToDoList = JSON.stringify(toDos);
-      console.log('first toDos', toDos)
       localStorage.setItem('toDos', stringifiedToDoList);
     }
   }
@@ -38,7 +37,12 @@ class ToDoList {
   updateToDo() {
     //should update the todo's title and urgency
   }
-  updateTask() {
-    //should update task's content and if it has been completed
-  }
+  updateTask(cleanTaskDataKey) {
+    for (var i = 0; i < this.tasks.length; i++) {
+      if (this.tasks[i].taskId === cleanTaskDataKey) {
+        this.tasks[i].completeTask();
+      }
+    } console.log(this.tasks);
+    }
+
 }
