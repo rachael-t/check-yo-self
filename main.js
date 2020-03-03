@@ -7,7 +7,7 @@ var newToDoList = [];
 var makeTaskButton = document.querySelector('.make-task-button');
 var currentTasks = document.querySelector('.current-tasks');
 var clearAllButton = document.querySelector('.clear-button');
-
+var masterToDoList = [];
 
 //event listeners
 newTaskItemButton.addEventListener('click', checkAside);
@@ -179,22 +179,22 @@ function editToDoListCard(event) {
   }
 }
 
-var masterToDoList = [];
-
 function getLocalStorage() {
   var retrievedToDos = localStorage.getItem(`toDos`);
   var parsedToDos = JSON.parse(retrievedToDos);
+  console.log('parsed', parsedToDos)
   var toDoListObjects = [];
   for (var i = 0; i < parsedToDos.length; i++) {
     var taskObjects = [];
     for (var j = 0; j < parsedToDos[i].tasks.length; j++) {
-      var task = new Task (parsedToDos[i].tasks[j].taskName, parsedToDos[i].tasks[j].taskId);
+      var task = new Task (parsedToDos[i].tasks[j].taskName, parsedToDos[i].tasks[j].taskId, parsedToDos[i].tasks[j].isCompleted);
       taskObjects.push(task);
     }
     var toDoList = new ToDoList (parsedToDos[i].id, parsedToDos[i].title, taskObjects);
     toDoListObjects.push(toDoList);
   } masterToDoList = toDoListObjects;
   console.log(masterToDoList);
+  debugger
 }
 
 function checkOffTask(event) {
