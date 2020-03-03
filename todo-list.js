@@ -1,9 +1,9 @@
 class ToDoList {
-  constructor(uniqueID, title, tasks) {
+  constructor(uniqueID, title, tasks, urgent) {
     this.id = uniqueID;
     this.title = title;
     this.tasks = tasks;
-    this.urgent = false;
+    this.urgent = urgent || false;
   }
 
   saveToStorage() {
@@ -25,8 +25,6 @@ class ToDoList {
   deleteFromStorage() {
     var retrievedToDos = localStorage.getItem(`toDos`);
     var parsedToDos = JSON.parse(retrievedToDos);
-    // var oldStorage = window.localStorage;
-    // oldStorage.clear();
     for (var i = 0; i < parsedToDos.length; i++) {
       if (parsedToDos[i].id === this.id) {
         parsedToDos.splice(i, 1);
@@ -36,8 +34,11 @@ class ToDoList {
     }
   }
   updateToDo() {
-    this.urgent = !this.urgent;
-    this.saveToStorage();
+    if (this.urgent === true) {
+      this.urgent = false;
+    } else {
+      this.urgent = true;
+    }
   }
   updateTask(cleanTaskDataKey) {
     for (var i = 0; i < this.tasks.length; i++) {
