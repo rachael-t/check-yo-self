@@ -11,6 +11,7 @@ class ToDoList {
     var retrievedToDos = localStorage.getItem(`toDos`);
     if (retrievedToDos) {
       var savedToDos = JSON.parse(retrievedToDos);
+      console.log(savedToDos);
       savedToDos.push(toDoListToSave);
       localStorage.setItem('toDos', JSON.stringify(savedToDos));
     } else {
@@ -35,7 +36,8 @@ class ToDoList {
     }
   }
   updateToDo() {
-    //should update the todo's title and urgency
+    this.urgent = !this.urgent;
+    this.saveToStorage();
   }
   updateTask(cleanTaskDataKey) {
     for (var i = 0; i < this.tasks.length; i++) {

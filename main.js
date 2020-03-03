@@ -181,7 +181,9 @@ function editToDoListCard(event) {
     checkOffTask(event);
   } else if (event.target.className === 'delete-button') {
     deleteToDoCard(event);
-  } 
+  } else if (event.target.className === 'urgent-button') {
+    toggleUrgency(event);
+  }
 }
 
 function getLocalStorage() {
@@ -235,6 +237,33 @@ function displayUpdatedTask(listToUpdate, cleanTaskDataKey) {
     taskElementToUpdate.src = "assets/checkbox-active.svg"
   } else {
     taskElementToUpdate.src = "assets/checkbox.svg"
+  }
+}
+
+function toggleUrgency(event) {
+  var cardDataKey = event.target.closest(".todo-list-card").getAttribute('id');
+  var cleanCardDataKey = parseInt(cardDataKey);
+  getLocalStorage();
+  for (var i = 0; i < masterToDoList.length; i++) {
+    if (masterToDoList[i].id === cleanCardDataKey) {
+
+      masterToDoList[i].deleteFromStorage(masterToDoList[i]);
+      masterToDoList[i].updateToDo();
+
+      // masterToDoList[i].saveToStorage(masterToDoList[i]);
+
+      toggleUrgencyDisplay(masterToDoList[i], cleanCardDataKey);
+    }
+  } getLocalStorage();
+}
+
+function toggleUrgencyDisplay(toDoList, cardDataKey) {
+  var toDoCard = document.getElementById(`${cardDataKey}`);
+  var urgentButton = toDoCard.querySelector(".urgent-button");
+  if (toDoList.urgent) {
+    urgentButton.src = "assets/urgent-active.svg"
+  } else {
+    urgentButton.src = "assets/urgent.svg";
   }
 }
 
