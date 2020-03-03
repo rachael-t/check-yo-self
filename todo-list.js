@@ -42,7 +42,8 @@ class ToDoList {
       if (this.tasks[i].taskId === cleanTaskDataKey) {
         this.tasks[i].completeTask();
       }
-    } console.log(this.tasks);
     }
+    console.log(this.tasks);
+  }
 
 }

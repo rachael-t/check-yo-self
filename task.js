@@ -5,6 +5,10 @@ class Task {
     this.isCompleted = isCompleted || false;
   }
   completeTask() {
-    this.isCompleted = true;
+    if (this.isCompleted === true) {
+      this.isCompleted = false;
+    } else {
+      this.isCompleted = true;
+    }
   }
 }
