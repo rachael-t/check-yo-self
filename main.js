@@ -100,7 +100,8 @@ function displayNewToDoCard(toDoList) {
         <p class="task-actions-text">Delete</p>
       </div>
     </div>`
-  var taskHolder = document.getElementById(`${toDoList.id}`);
+  var cardHolder = document.getElementById(`${toDoList.id}`);
+  var taskHolder = cardHolder.querySelector('.task-holder');
   for (var i = 0; i < toDoList.tasks.length; i++) {
     taskHolder.innerHTML += `
     <div class="task-item">
@@ -124,12 +125,15 @@ function disableClearButton() {
 
 function retrieveToDoLists() {
   var retrievedToDos = localStorage.getItem(`toDos`);
+  console.log(retrievedToDos);
   if (!retrievedToDos) {
     return;
   }
   var toDos = JSON.parse(retrievedToDos);
+  console.log(toDos);
   //based on what we talked about in class - should I re-instantiate the parsed object literals before displaying?
   for (var i = 0; i < toDos.length; i++) {
+    console.log(toDos[i]);
     displayToDoCard(toDos[i]);
   }
 }
@@ -150,7 +154,8 @@ function displayToDoCard(toDoCard) {
         <p class="task-actions-text">Delete</p>
       </div>
     </div>`
-    var taskHolder = document.getElementById(`${toDoCard.id}`);
+    var cardHolder = document.getElementById(`${toDoCard.id}`);
+    var taskHolder = cardHolder.querySelector(".task-holder")
     for (var i = 0; i < toDoCard.tasks.length; i++) {
       if (toDoCard.tasks[i].isCompleted === false) {
         taskHolder.innerHTML += `
@@ -235,37 +240,48 @@ function displayUpdatedTask(listToUpdate, cleanTaskDataKey) {
   }
   if (currentStatus) {
     taskElementToUpdate.src = "assets/checkbox-active.svg"
+
   } else {
     taskElementToUpdate.src = "assets/checkbox.svg"
   }
 }
 
-function toggleUrgency(event) {
-  var cardDataKey = event.target.closest(".todo-list-card").getAttribute('id');
-  var cleanCardDataKey = parseInt(cardDataKey);
-  getLocalStorage();
-  for (var i = 0; i < masterToDoList.length; i++) {
-    if (masterToDoList[i].id === cleanCardDataKey) {
 
-      masterToDoList[i].deleteFromStorage(masterToDoList[i]);
-      masterToDoList[i].updateToDo();
+//Below is my attempt to get the urgency button functionality working. I had a very difficult time with this and continually ran into issues with it's behavior. When it began impacting the user's ability to add in new cards if one was selected as "urgent" I decided to leave this out and spend my remaining few hours of the project fixing other bugs.
 
-      // masterToDoList[i].saveToStorage(masterToDoList[i]);
-
-      toggleUrgencyDisplay(masterToDoList[i], cleanCardDataKey);
-    }
-  } getLocalStorage();
-}
-
-function toggleUrgencyDisplay(toDoList, cardDataKey) {
-  var toDoCard = document.getElementById(`${cardDataKey}`);
-  var urgentButton = toDoCard.querySelector(".urgent-button");
-  if (toDoList.urgent) {
-    urgentButton.src = "assets/urgent-active.svg"
-  } else {
-    urgentButton.src = "assets/urgent.svg";
-  }
-}
+// function toggleUrgency(event) {
+//   var cardDataKey = event.target.closest(".todo-list-card").getAttribute('id');
+//   var cleanCardDataKey = parseInt(cardDataKey);
+//   getLocalStorage();
+//   for (var i = 0; i < masterToDoList.length; i++) {
+//     if (masterToDoList[i].id === cleanCardDataKey) {
+//       debugger
+//       masterToDoList[i].deleteFromStorage(masterToDoList[i]);
+//       masterToDoList[i].updateToDo();
+//       console.log(masterToDoList[i].urgent);
+//       var toggledToDoList = new ToDoList (masterToDoList[i].id, masterToDoList[i].title, masterToDoList[i].tasks, masterToDoList[i].urgent);
+//       console.log(toggledToDoList);
+//
+//       localStorage.setItem('toDos', JSON.stringify(toggledToDoList));
+//
+//       getLocalStorage();
+//       console.log(masterToDoList);
+//
+//
+//       toggleUrgencyDisplay(toggledToDoList, cleanCardDataKey);
+//     }
+//   } getLocalStorage();
+// }
+//
+// function toggleUrgencyDisplay(toDoList, cardDataKey) {
+//   var toDoCard = document.getElementById(`${cardDataKey}`);
+//   var urgentButton = toDoCard.querySelector(".urgent-button");
+//   if (toDoList.urgent) {
+//     urgentButton.src = "assets/urgent-active.svg"
+//   } else {
+//     urgentButton.src = "assets/urgent.svg";
+//   }
+// }
 
 function deleteToDoCard(event) {
   if (event.target.className === 'delete-button') {
@@ -275,7 +291,6 @@ function deleteToDoCard(event) {
     cardToDelete.remove();
   }
 }
-
 
 function removeCardFromStorage(cardDataKey) {
   var cleanCardDataKey = parseInt(cardDataKey);
@@ -289,10 +304,3 @@ function removeCardFromStorage(cardDataKey) {
     }
   }
 }
-
-
-//set a global variable for the masterToDoList
-//set a function that does the get from local storage, parse and then instantiate as new object instance and set masterToDoList as that object instance
-//refer to that variable instead of continually typing that code out
-//call any of the methods, push to local storage
-//then after whenever I call a method that is changing local storage, after it call the function to pull from local stroage and update
