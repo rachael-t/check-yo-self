@@ -11,7 +11,6 @@ class ToDoList {
     var retrievedToDos = localStorage.getItem(`toDos`);
     if (retrievedToDos) {
       var savedToDos = JSON.parse(retrievedToDos);
-      console.log(savedToDos);
       savedToDos.push(toDoListToSave);
       localStorage.setItem('toDos', JSON.stringify(savedToDos));
     } else {
@@ -46,7 +45,6 @@ class ToDoList {
         this.tasks[i].completeTask();
       }
     }
-    console.log(this.tasks);
   }
 
 }
