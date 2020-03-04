@@ -7,6 +7,7 @@ var masterToDoList = [];
 var newItemList = document.querySelector('.newly-added-tasks');
 var newTaskItemButton = document.querySelector('.new-task-item-button');
 var newToDoList = [];
+var startingMessage = document.querySelector('.starting-message');
 var taskTitleInput = document.querySelector('#task-title-input');
 
 //event listeners
@@ -84,6 +85,7 @@ function clearForm() {
 }
 
 function displayNewToDoCard(toDoList) {
+  startingMessage.classList.add('hidden');
   currentTasks.innerHTML += `
   <div class="todo-list-card" id="${toDoList.id}">
     <h2>${toDoList.title}</h2>
@@ -122,8 +124,9 @@ function disableClearButton() {
 }
 
 function retrieveToDoLists() {
-  var retrievedToDos = localStorage.getItem(`toDos`);
+  var retrievedToDos = localStorage.getItem('toDos');
   if (!retrievedToDos) {
+    startingMessage.classList.remove('hidden');
     return;
   }
   var toDos = JSON.parse(retrievedToDos);

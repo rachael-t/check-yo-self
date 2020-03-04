@@ -26,6 +26,10 @@ h1 {
   width: fit-content;
 }
 
+h1 span {
+  color: #FFC30C;
+}
+
 h1, .search {
   margin: 5px;
 }
