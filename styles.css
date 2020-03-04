@@ -163,23 +163,20 @@ aside {
 }
 
 .current-tasks {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 70%;
+  columns: 2;
 }
 
 .starting-message {
-  margin: 60px 200px 60px 200px;
   text-align: center;
 }
 
 .todo-list-card {
   background-color: #FAFDFF;
   border: solid #C7D3D8;
+  display: inline-block;
   margin-top: 20px;
   margin-left: 20px;
-  width: 400px;
+  width: 90%;
 }
 
 .todo-list-card h2, p {
