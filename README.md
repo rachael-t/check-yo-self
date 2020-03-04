@@ -136,3 +136,5 @@ Specifically, when I initially set up the method saveToStorage, I didn't think a
 This project really showed me how much I have learned during my first module at Turing, and how much I can continue to learn while working on projects. This project also presented a lot of challenges that were difficult for me to overcome working solo compared with working with a partner or group in the last projects. This taught me how important it is to ask questions as well as showed me how difficult it can be getting input from others who haven't been as immersed in your code as a partner or group would be.
 
 I spent a lot of the last day of the project attempting to get the urgent functionality working, but was not able to make it work successfully without impacting the user experience significantly, so that was left out of my final master code. It it under a new branch **not merged** to master to revisit and continue working on.
+
+<img width="1438" alt="Screen Shot 2020-03-03 at 9 40 03 PM" src="https://user-images.githubusercontent.com/54180641/75846103-1e890400-5dd3-11ea-8160-d580f9ff45d3.png">
